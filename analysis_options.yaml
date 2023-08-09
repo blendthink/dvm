@@ -1,30 +1,55 @@
-# This file configures the static analysis results for your project (errors,
-# warnings, and lints).
-#
-# This enables the 'recommended' set of lints from `package:lints`.
-# This set helps identify many issues that may lead to problems when running
-# or consuming Dart code, and enforces writing Dart using a single, idiomatic
-# style and format.
-#
-# If you want a smaller set of lints you can change this to specify
-# 'package:lints/core.yaml'. These are just the most critical lints
-# (the recommended set includes the core lints).
-# The core lints are also what is used by pub.dev for scoring packages.
+include: all_lint_rules.yaml
 
-include: package:lints/recommended.yaml
+analyzer:
+  language:
+    # Increase safety as much as possible
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  errors:
+    # Cause the import of all_lint_rules to warn because of some rules conflicts.
+    # Those warnings will be fixed in this file.
+    included_file_warning: ignore
 
-# Uncomment the following section to specify additional rules.
+linter:
+  rules:
+    # Conflicts with enabling `strict-raw-types`
+    avoid_annotating_with_dynamic: false
 
-# linter:
-#   rules:
-#     - camel_case_types
+    # Conflicts with `avoid_types_on_closure_parameters`, `omit_local_variable_types`
+    always_specify_types: false
 
-# analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
+    # Conflicts with `avoid_final_parameters`
+    prefer_final_parameters: false
 
-# For more information about the core and recommended set of lints, see
-# https://dart.dev/go/core-lints
+    # Conflicts with `always_use_package_imports`
+    prefer_relative_imports: false
 
-# For additional information about configuring this file, see
-# https://dart.dev/guides/language/analysis-options
+    # Conflicts with `prefer_single_quotes`
+    prefer_double_quotes: false
+
+    # Conflicts with `prefer_final_locals`
+    unnecessary_final: false
+
+    # Using `=>` has sometimes to reduce readability
+    prefer_expression_function_bodies: false
+
+    # Don't use Flutter-style todos
+    flutter_style_todos: false
+
+    # Too much
+    one_member_abstracts: false
+    public_member_api_docs: false
+
+    # Don't use Flutter lint rules
+    avoid_print: false
+    avoid_unnecessary_containers: false
+    diagnostic_describe_all_properties: false
+    no_logic_in_create_state: false
+    sized_box_for_whitespace: false
+    sized_box_shrink_expand: false
+    sort_child_properties_last: false
+    use_build_context_synchronously: false
+    use_colored_box: false
+    use_decorated_box: false
+    use_key_in_widget_constructors: false
