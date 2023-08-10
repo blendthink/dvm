@@ -6,9 +6,9 @@ homepage: https://github.com/blendthink/dvm
 environment:
   sdk: ^3.0.7
 
-# Add regular dependencies here.
 dependencies:
-  # path: ^1.8.0
+  cli:
+    path: packages/cli
 
 dev_dependencies:
   test: ^1.24.6

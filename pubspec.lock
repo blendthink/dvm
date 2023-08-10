@@ -41,6 +41,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  cli:
+    dependency: "direct main"
+    description:
+      path: "packages/cli"
+      relative: true
+    source: path
+    version: "1.0.0"
   collection:
     dependency: transitive
     description:
