@@ -1,7 +1,7 @@
 name: cli
-description: A starting point for Dart libraries or applications.
+description: A library to easily create a command-line app
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+homepage: https://github.com/blendthink/dvm/tree/main/packages/cli
 
 environment:
   sdk: ^3.0.7
