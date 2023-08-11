@@ -8,7 +8,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  # path: ^1.8.0
+  collection: ^1.18.0
 
 dev_dependencies:
   test: ^1.24.6

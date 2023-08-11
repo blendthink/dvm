@@ -2,6 +2,7 @@ name: dvm
 description: A simple CLI to manage Dart SDK versions per project.
 version: 1.0.0
 homepage: https://github.com/blendthink/dvm
+publish_to: 'none'
 
 environment:
   sdk: ^3.0.7
@@ -9,6 +10,7 @@ environment:
 dependencies:
   cli:
     path: packages/cli
+  pub_semver: ^2.1.4
 
 dev_dependencies:
   test: ^1.24.6
