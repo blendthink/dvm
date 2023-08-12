@@ -1,6 +1,7 @@
+import 'dart:collection';
+
 import 'package:cli/cli.dart';
 import 'package:cli/src/extensions/iterable_extensions.dart';
-import 'package:collection/collection.dart';
 
 abstract class Cli {
   Cli({
@@ -10,17 +11,14 @@ abstract class Cli {
         _commands = UnmodifiableListView(commands) {
     final duplicatedCommand = _commands.firstDuplicatedWhereOrNull((c) => true);
     if (duplicatedCommand != null) {
-      throw const UsageException(
-        'message',
-        Usage(),
-      );
+      throw ArgumentError('Duplicate command "$duplicatedCommand".');
     }
   }
 
   final PackageInfo _packageInfo;
   final List<Command> _commands;
 
-  CommandRunner parse(Iterable<String> args) {
+  CommandRunner parse(Queue<String> args) {
     if (args.isEmpty) {
       throw const UsageException(
         'No command specified',
@@ -28,16 +26,14 @@ abstract class Cli {
       );
     }
 
-    final command = _commands.firstWhereOrNull(
-      (c) => true, // c.name == args.first,
-    );
-
-    if (command == null) {
-      throw UsageException(
-        'Could not find a command named "${args.first}".',
+    final commandName = args.removeFirst();
+    final command = _commands.firstWhere(
+      (c) => true, // c.name == commandName,
+      orElse: () => throw UsageException(
+        'Could not find a command named "$commandName".',
         const Usage(),
-      );
-    }
+      ),
+    );
 
     // TODO: implement
     throw UnimplementedError();

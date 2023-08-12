@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cli/cli.dart';
 import 'package:dvm/src/commands/commands.dart';
 import 'package:dvm/src/logger.dart';
@@ -17,7 +19,7 @@ class DvmCli extends Cli {
 
   Future<ExitStatus> run(Iterable<String> args) async {
     try {
-      final commandRunner = parse(args);
+      final commandRunner = parse(Queue.of(args));
       return commandRunner.run();
     } on UsageException catch (e) {
       logger
