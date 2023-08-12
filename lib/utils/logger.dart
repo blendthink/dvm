@@ -1,22 +1,24 @@
-class Logger {
-  Logger._();
+const logger = Logger();
 
-  static void error(Object object) {
+class Logger {
+  const Logger();
+
+  void error(Object object) {
     // TODO: implement error
     throw UnimplementedError();
   }
 
-  static void warning(Object object) {
+  void warning(Object object) {
     // TODO: implement warning
     throw UnimplementedError();
   }
 
-  static void info(Object object) {
+  void info(Object object) {
     // TODO: implement info
     throw UnimplementedError();
   }
 
-  static void spacer() {
+  void spacer() {
     // TODO: implement spacer
     throw UnimplementedError();
   }

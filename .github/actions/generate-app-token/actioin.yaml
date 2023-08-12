@@ -1,0 +1,8 @@
+name: Generate app token
+description: Generate GitHub App token
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: ./.github/scripts/generate-app-token.sh

@@ -1,0 +1,42 @@
+name: Deploy to Homebrew
+
+on:
+  workflow_dispatch:
+  release:
+    types: [ published, released ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 3.0.7
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Build Package Info
+        run: dart run build_runner build -d
+
+      - name: Generate GitHub App token
+        id: token
+        uses: ./.github/actions/generate-app-token
+        env:
+          APP_ID: ${{ secrets.APP_CTAR_APP_ID }}
+          PRIVATE_KEY: ${{ secrets.APP_CTAR_PRIVATE_KEY }}
+
+      - name: Deploy to Homebrew
+        env:
+          GITHUB_TOKEN: ${{ steps.token.outputs.token }}
+        shell: bash
+        run: dart pub run grinder pkg-homebrew-update
+
+      - name: Revoke GitHub App token
+        env:
+          GITHUB_TOKEN: ${{ steps.token.outputs.token }}
+        uses: ./.github/actions/revoke-app-token

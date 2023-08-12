@@ -1,10 +1,6 @@
-import 'dart:io';
+import 'package:dvm/dvm.dart';
 
-import 'package:dvm/dvm.dart' as dvm;
-
-void main(List<String> arguments) async {
-  final exitStatus = await dvm.run(arguments);
-  await Future.wait([stdout.close(), stderr.close()]).then(
-    (_) => exit(exitStatus.code),
-  );
+Future<void> main(List<String> args) async {
+  final cli = DvmCli();
+  return cli.run(args);
 }

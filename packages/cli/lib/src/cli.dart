@@ -2,7 +2,7 @@ import 'package:cli/cli.dart';
 import 'package:cli/src/extensions/iterable_extensions.dart';
 import 'package:collection/collection.dart';
 
-class Cli {
+abstract class Cli {
   Cli({
     required PackageInfo packageInfo,
     required List<Command> commands,

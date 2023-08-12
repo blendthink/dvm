@@ -1,0 +1,8 @@
+name: Revoke app token
+description: Revoke GitHub App token
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: ./.github/scripts/revoke-app-token.sh
