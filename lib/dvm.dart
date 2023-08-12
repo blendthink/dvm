@@ -1,4 +1,4 @@
-import 'package:cli/cli.dart' show Cli, ExitCode, UsageException;
+import 'package:cli/cli.dart' show Cli, ExitStatus, UsageException;
 import 'package:dvm/commands/help_command.dart';
 import 'package:dvm/commands/install_command.dart';
 import 'package:dvm/commands/releases_command.dart';
@@ -7,7 +7,7 @@ import 'package:dvm/commands/version_command.dart';
 import 'package:dvm/gen/package_info.g.dart';
 import 'package:dvm/utils/logger.dart';
 
-Future<ExitCode> run(Iterable<String> args) async {
+Future<ExitStatus> run(Iterable<String> args) async {
   final cli = Cli(
     packageInfo: packageInfo,
     commands: const [
@@ -28,9 +28,9 @@ Future<ExitCode> run(Iterable<String> args) async {
     Logger.spacer();
     Logger.info(e.usage);
     Logger.spacer();
-    return ExitCode.usage;
+    return ExitStatus.usage;
   } on Exception catch (e) {
     Logger.error(e.toString());
-    return ExitCode.errors;
+    return ExitStatus.errors;
   }
 }

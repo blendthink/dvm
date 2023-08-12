@@ -8,7 +8,7 @@ class ReleasesCommandRunner implements CommandRunner {
   const ReleasesCommandRunner();
 
   @override
-  Future<ExitCode> run() {
+  Future<ExitStatus> run() {
     // TODO: implement run
     throw UnimplementedError();
   }

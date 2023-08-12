@@ -1,5 +1,5 @@
-import 'package:cli/src/data/exit_code.dart';
+import 'package:cli/src/data/exit_status.dart';
 
 abstract interface class CommandRunner {
-  Future<ExitCode> run();
+  Future<ExitStatus> run();
 }

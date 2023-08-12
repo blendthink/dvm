@@ -13,7 +13,7 @@ class UseCommandRunner implements CommandRunner {
   final Version? version;
 
   @override
-  Future<ExitCode> run() {
+  Future<ExitStatus> run() {
     // TODO: implement run
     throw UnimplementedError();
   }

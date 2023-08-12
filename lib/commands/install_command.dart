@@ -8,7 +8,7 @@ class InstallCommandRunner implements CommandRunner {
   const InstallCommandRunner();
 
   @override
-  Future<ExitCode> run() {
+  Future<ExitStatus> run() {
     // TODO: implement run
     throw UnimplementedError();
   }
