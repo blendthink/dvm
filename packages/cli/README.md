@@ -1,39 +1,85 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+## Commands
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+### Must not be duplicated
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+- name
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+### Format
 
-## Features
+`^(?<name>[a-z]+)$`
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+## Options
 
-## Getting started
+### KeyOption
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+#### Must not be duplicated
 
-## Usage
+- name
+- abbr
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+#### Format
 
-```dart
-const like = 'sample';
-```
+- `^-(?<abbr>[a-z])$`
+- `^--(?<name>[a-z]{2,})$`
 
-## Additional information
+#### Not Supported Format
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+`^-(?<abbrX>[a-z])(?<abbrY>[a-z])$`
+
+ex)
+- `-xy`
+
+- `^--no-(?<name>[a-z]{2,})$`
+
+ex)
+- `--no-xx`
+
+### KeyValueOption
+
+#### Must not be duplicated
+
+- name
+- abbr
+
+#### Format
+
+- Equals
+  - `^-(?<abbr>[a-z])=(?<value>.*)$`
+  - `^--(?<name>[a-z]{2,})=(?<value>.*)$`
+
+ex)
+- `-x=a`
+- `--xx=a`
+
+#### Not Supported Format
+
+##### Space
+
+- `^-(?<abbr>[a-z]) (?<value>.*)$`
+- `^--(?<name>[a-z]{2,}) (?<value>.*)$`
+
+ex)
+- `-x a`
+- `--xx a`
+
+##### Multiple
+
+- `^-(?<abbr>[a-z]) (?<value>.*) -(?<abbr>[a-z]) (?<value>.*)$`
+- `^--(?<name>[a-z]{2,}) (?<value>.*) --(?<name>[a-z]{2,}) (?<value>.*)$`
+
+ex)
+- `-x a -x b`
+- `--xx a --xx b`
+
+### ValueOption
+
+#### Must not be duplicated
+
+Only one can exist in Command.
+
+#### Format
+
+Custom Format
+
+ex)
+dvm use 1.0.0
