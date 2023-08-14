@@ -23,10 +23,21 @@ class UseCommandRunner implements CommandRunner {
     required this.version,
   });
 
-  final Version version;
+  final Version? version;
 
   @override
   Future<ExitStatus> run() {
+    final Version version;
+    if (this.version == null) {
+      // TODO: Find version by ${Directory.current}/dvm_config.json
+
+      // TODO: If not found, then throw error
+    }
+
+    // TODO: Check version is installed. If not install, then install.
+
+    // TODO: Update config file
+
     // TODO: implement run
     throw UnimplementedError();
   }

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cli/cli.dart';
 
 class HelpCommand extends Command {
@@ -7,8 +5,7 @@ class HelpCommand extends Command {
 
   @override
   CommandRunner parse(List<String> args) {
-    // TODO: implement parse
-    throw UnimplementedError();
+    return const HelpCommandRunner();
   }
 }
 
