@@ -44,10 +44,10 @@ class ProjectConfigService {
       await _ignoreFile.create(recursive: true);
       await _ignoreFile.writeAsString('dart_sdk\n');
     }
-    await updateSdkLink(config.version);
+    await _updateSdkLink(config.version);
   }
 
-  Future<void> updateSdkLink(DartSdkVersion version) async {
+  Future<void> _updateSdkLink(DartSdkVersion version) async {
     final channel = version.channel;
     final versionName = version.toString();
 
