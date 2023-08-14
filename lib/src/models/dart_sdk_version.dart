@@ -11,14 +11,29 @@
 /// the prerelease and prerelease patch versions, and beta or dev is
 /// the channel.
 class DartSdkVersion {
-  const DartSdkVersion({
+  const DartSdkVersion.stable({
     required this.major,
     required this.minor,
     required this.patch,
-    required this.channel,
-    this.preMinor,
-    this.prePatch,
-  });
+  })  : channel = DartSdkChannel.stable,
+        preMinor = null,
+        prePatch = null;
+
+  const DartSdkVersion.beta({
+    required this.major,
+    required this.minor,
+    required this.patch,
+    required int this.preMinor,
+    required int this.prePatch,
+  }) : channel = DartSdkChannel.beta;
+
+  const DartSdkVersion.dev({
+    required this.major,
+    required this.minor,
+    required this.patch,
+    required int this.preMinor,
+    required int this.prePatch,
+  }) : channel = DartSdkChannel.dev;
 
   factory DartSdkVersion.fromString(String value) {
     const nameMajor = 'major';
@@ -40,18 +55,35 @@ class DartSdkVersion {
     final minor = int.parse(match.namedGroup(nameMinor)!);
     final patch = int.parse(match.namedGroup(namePatch)!);
 
-    final preMinor = match.namedGroup(namePreMinor);
-    final prePatch = match.namedGroup(namePrePatch);
-    final channel = match.namedGroup(nameChannel) ?? 'stable';
+    final channelName = match.namedGroup(nameChannel) ?? 'stable';
+    final channel = DartSdkChannel.values.byName(channelName);
+    if (channel == DartSdkChannel.stable) {
+      return DartSdkVersion.stable(
+        major: major,
+        minor: minor,
+        patch: patch,
+      );
+    }
 
-    return DartSdkVersion(
-      major: major,
-      minor: minor,
-      patch: patch,
-      channel: DartSdkChannel.values.byName(channel),
-      preMinor: preMinor != null ? int.parse(preMinor) : null,
-      prePatch: prePatch != null ? int.parse(prePatch) : null,
-    );
+    final preMinor = int.parse(match.namedGroup(namePreMinor)!);
+    final prePatch = int.parse(match.namedGroup(namePrePatch)!);
+    if (channel == DartSdkChannel.beta) {
+      return DartSdkVersion.beta(
+        major: major,
+        minor: minor,
+        patch: patch,
+        preMinor: preMinor,
+        prePatch: prePatch,
+      );
+    } else {
+      return DartSdkVersion.dev(
+        major: major,
+        minor: minor,
+        patch: patch,
+        preMinor: preMinor,
+        prePatch: prePatch,
+      );
+    }
   }
 
   @override
