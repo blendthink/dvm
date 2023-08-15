@@ -6,22 +6,22 @@ import 'package:file/file.dart' show Directory, File, Link;
 
 class ProjectConfigService {
   ProjectConfigService({
-    required Directory projectConfigDir,
+    required File configFile,
+    required File ignoreFile,
+    required Link sdkLink,
     required Directory cacheDir,
     JsonEncoder prettyEncoder = const JsonEncoder.withIndent('  '),
-  })  : _projectConfigDir = projectConfigDir,
+  })  : _configFile = configFile,
+        _ignoreFile = ignoreFile,
+        _sdkLink = sdkLink,
         _cacheDir = cacheDir,
         _prettyEncoder = prettyEncoder;
 
-  final Directory _projectConfigDir;
+  final File _configFile;
+  final File _ignoreFile;
+  final Link _sdkLink;
   final Directory _cacheDir;
   final JsonEncoder _prettyEncoder;
-
-  File get _configFile => _projectConfigDir.childFile('config.json');
-
-  File get _ignoreFile => _projectConfigDir.childFile('.gitignore');
-
-  Link get _sdkLink => _projectConfigDir.childLink('dart_sdk');
 
   ProjectConfig? findConfig() {
     if (!_configFile.existsSync()) {
