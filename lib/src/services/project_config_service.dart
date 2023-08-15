@@ -49,10 +49,8 @@ class ProjectConfigService {
 
   Future<void> _updateSdkLink(DartSdkVersion version) async {
     final channel = version.channel;
-    final versionName = version.toString();
-
     final targetPath =
-        _cacheDir.childDirectory('${channel.name}/$versionName').path;
+        _cacheDir.childDirectory('${channel.name}/$version').path;
     if (_sdkLink.existsSync()) {
       await _sdkLink.update(targetPath);
     } else {
