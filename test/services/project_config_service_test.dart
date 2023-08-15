@@ -30,6 +30,55 @@ void main() async {
     );
   });
 
+  group('findConfig', () {
+    test('null', () {
+      // Arrange
+      expect(configFile.existsSync(), isFalse);
+
+      // Act
+      final actual = service.findConfig();
+
+      // Assert
+      expect(actual, isNull);
+    });
+    test('stable', () {
+      // Arrange
+      const version = '3.0.7';
+      const contents = '''
+{
+  "dartSdkVersion": "$version"
+}
+''';
+      configFile
+        ..createSync(recursive: true)
+        ..writeAsStringSync(contents);
+
+      // Act
+      final actual = service.findConfig();
+
+      // Assert
+      expect(actual?.version.toString(), version);
+    });
+    test('dev', () {
+      // Arrange
+      const version = '3.2.0-36.0.dev';
+      const contents = '''
+{
+  "dartSdkVersion": "$version"
+}
+''';
+      configFile
+        ..createSync(recursive: true)
+        ..writeAsStringSync(contents);
+
+      // Act
+      final actual = service.findConfig();
+
+      // Assert
+      expect(actual?.version.toString(), version);
+    });
+  });
+
   group('updateConfig', () {
     test('stable', () async {
       // Arrange
