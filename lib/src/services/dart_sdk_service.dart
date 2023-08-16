@@ -37,9 +37,10 @@ class DartSdkService {
     required DartSdkVersion version,
   }) async {
     final channel = version.channel;
-    final targetDir = _cacheDir.childDirectory('${channel.name}/$version');
+    final targetDir = _cacheDir.childDirectory(channel.name);
+    final versionDir = targetDir.childDirectory(version.toString());
 
-    if (targetDir.existsSync()) {
+    if (versionDir.existsSync()) {
       return;
     }
 
@@ -57,8 +58,17 @@ class DartSdkService {
     final archive = _zipDecoder.decodeBytes(bytes);
     extractArchiveToDisk(archive, targetDir.path);
 
+    final sdkDir = targetDir.childDirectory('dart-sdk');
+    if (!sdkDir.existsSync()) {
+      throw Exception('Could not find Dart SDK');
+    }
+    sdkDir.renameSync(versionDir.path);
+
     if (Platform.isLinux || Platform.isMacOS) {
-      final dartBin = targetDir.childFile('dart-sdk/bin/dart');
+      final dartBin = versionDir.childFile('bin/dart');
+      if (!dartBin.existsSync()) {
+        throw Exception('Could not find Dart binary');
+      }
       await _chmodClient.grantExecPermission(dartBin);
     }
   }
