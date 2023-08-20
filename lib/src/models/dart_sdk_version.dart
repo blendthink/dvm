@@ -44,7 +44,7 @@ class DartSdkVersion {
     const nameChannel = 'channel';
 
     final regex = RegExp(
-      '''^(?<$nameMajor>\\d+).(?<$nameMinor>\\d+).(?<$namePatch>\\d+)(-(?<$namePreMinor>\\d+).(?<$namePrePatch>\\d+).(?<$nameChannel>beta|dev))?\$''',
+      '''^(?<$nameMajor>\\d+)\\.(?<$nameMinor>\\d+)\\.(?<$namePatch>\\d+)(-(?<$namePreMinor>\\d+)\\.(?<$namePrePatch>\\d+)\\.(?<$nameChannel>beta|dev))?\$''',
     );
     final match = regex.firstMatch(value);
     if (match == null) {

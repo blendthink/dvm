@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -27,10 +28,44 @@ class DartSdkService {
   final ZipDecoder _zipDecoder;
   final Directory _cacheDir;
 
-  Future<List<DartSdkVersion>> getDartSdkVersions() async {
-    // final releases = await _client.get();
-    // return releases.versions;
-    throw UnimplementedError();
+  Future<List<DartSdkVersion>> getDartSdkVersions(
+    DartSdkChannel channel,
+  ) async {
+    final url = 'https://www.googleapis.com/storage/v1/b/dart-archive/o/'
+        '?prefix=channels/${channel.name}/release/&delimiter=/';
+
+    final response = await _client.get(Uri.parse(url));
+    if (response.statusCode case < 200 && >= 300) {
+      throw Exception('Could not fetch Dart SDK versions');
+    }
+
+    final json = jsonDecode(response.body) as Map<String, dynamic>;
+    final prefixes = json['prefixes'] as List<dynamic>;
+
+    final versions = prefixes
+        .map((prefix) => _findVersionOrNull(channel, prefix as String))
+        .nonNulls
+        .toList();
+
+    return versions;
+  }
+
+  /// prefix の中にバージョン文字列が含まれていれば、そのバージョンを返す。
+  /// そうでなければ null を返す。
+  DartSdkVersion? _findVersionOrNull(DartSdkChannel channel, String prefix) {
+    const nameVersion = 'version';
+
+    final regex = RegExp(
+      '''^channels/${channel.name}/release/(?<$nameVersion>\\d+\\.\\d+\\.\\d+(-\\d+\\.\\d+\\.beta|dev)?)/\$''',
+    );
+
+    final match = regex.firstMatch(prefix);
+    if (match == null) {
+      return null;
+    }
+
+    final version = match.namedGroup(nameVersion)!;
+    return DartSdkVersion.fromString(version);
   }
 
   Future<void> downloadDartSdk({
